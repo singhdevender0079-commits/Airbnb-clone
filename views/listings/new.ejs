@@ -1,23 +1,51 @@
 <% layout("/layouts/boilerplate") %>
 <body>
-  <h1>Enter the new listing</h1>
+<br>
+
+
+
+  <div class="row">
+    
+    <div class="col-12 ">
+  <h3>Publish new listing</h3>
+  <br>
   <form action="/listings" method="post">
-<input type="text" name="title" id="" placeholder="Enter the title">
-<br>
-<br>
-<textarea name="description" id=""></textarea>
-<br>
-<br>
-<input type="number" id="" name="price" placeholder="Enter the price">
-<br>
-<br>
-<input type="text" name="location" id="" placeholder="Enter the location">
-<br>
-<br>
-<input type="text" name="country" id="" placeholder="Enter the country">
-<br>
-<br>
-<button>Submit</button>
+    <div class="mb-3">     <label for="title" class="form-lable">Add a catchy title</label>
+<input type="text" name="title" id="" placeholder="Enter the title" class="form-control">
+</div>
+
+
+<div class="mb-3">
+<label for="description" class="form-lable" >Description</label>
+<textarea name="description" id="" class="form-control"></textarea>
+</div>
+
+
+<div class="mb-3">
+  <label for="image" class="form-lable" >Image</label>
+<input type="text" name="image" id="" class="form-control" placeholder="enter img Url/link">
+</div>
+
+<div class="row">
+<div class="mb-3 col-md-4" >
+<label for="price" class="form-lable">Price</label>
+<input type="number" id="" name="price" placeholder="1200/-" class="form-control">
+</div>
+
+<div class="mb-3 col-md-8">
+  <label for="country" class="form-lable">Country</label>
+<input type="text" name="country" id="" placeholder="India" class="form-control">
+</div>
+</div>
+<div class="mb-3">
+  <label for="location" class="form-lable">location</label>
+<input type="text" name="location" id="" placeholder="Jaipur,Rajasthan" class="form-control">
+</div>
+
+
+<button class="btn add-btn">Add</button>
 </form>
+</div>
+</div>
 </body>
 </html>

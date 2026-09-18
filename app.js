@@ -37,26 +37,27 @@ let allListings= await Listings.find();
 res.render("listings/index.ejs",{allListings});
 });
 
-
+app.get("/listings/new",(req,res)=>{
+res.render("listings/new.ejs");
+});
 app.get("/listings/:id",async (req,res)=>{
     let {id}=req.params;
      const listing= await Listings.findById(id);
     res.render("listings/show.ejs",{listing});
 })
 
-app.get("/listing/new",(req,res)=>{
-res.render("listings/new.ejs");
-});
+
 
 app.post("/listings",async(req,res)=>{
-let {title,description,image,price,place,country}=req.body;
+let {title,description,image,price,location,country}=req.body;
 let sampleListing= await new Listing({
  title:title,
         description:description,
         image:image,
         price:price,
-        place:place,
+         location:location,
         country:country
+       
 });
 
 await sampleListing.save();

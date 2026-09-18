@@ -43,6 +43,12 @@ font-size: 1.3rem;
 body{
     font-family: "Plus Jakarta Sans", sans-serif;
   font-optical-sizing: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.container{
+    flex: 1;
 }
 .listing-link{
     text-decoration: none;
@@ -53,4 +59,10 @@ body{
 .card:hover .card-img-overlay {
     opacity: 0.3;
     background-color: white;
+}
+.add-btn{
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
 }
