@@ -66,3 +66,13 @@ body{
     border: none;
     border-radius: 5px;
 }
+.img-show{
+    height: 40vh;
+    object-fit: fill;
+}
+.btns{
+
+    display: flex;
+    gap: 10px;
+
+}
