@@ -49,13 +49,13 @@ app.get("/listings/:id",async (req,res)=>{
 
 
 app.post("/listings",async(req,res)=>{
-let {title,description,image,price,location,country}=req.body;
+let {title,description,image,price,place,country}=req.body;
 let sampleListing= await new Listing({
  title:title,
         description:description,
         image:image,
         price:price,
-         location:location,
+         place:place,
         country:country
        
 });
@@ -73,13 +73,13 @@ app.get("/listings/:id/edit",async (req,res)=>{
 
 app.put("/listing/:id",async (req,res)=>{
 let {id}=req.params;
-let { title, description, image, price, place, country } = req.body;
+let { title, description, image, price, location, country } = req.body;
 let edit= await Listings.findByIdAndUpdate(id,{
      title:title,
         description:description,
         image:image,
         price:price,
-        place:place,
+        location:location,
         country:country
 })
 res.redirect("/listings");
