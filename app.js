@@ -62,7 +62,7 @@ let sampleListing= await new Listing({
 
 await sampleListing.save();
     console.log("sample was saved");
-    redirect("/listings");
+redirect("/listings");
 });
 
 app.get("/listings/:id/edit",async (req,res)=>{
