@@ -7,12 +7,12 @@
     <div class="col-12 ">
     <h3>Edit the listing</h3>
     <br>
-    <form method="post" action="/listing/<%=listing._id%>?_method=put" novalidate class="needs-validation">
+    <form method="post" action="/listings/<%=listing._id%>?_method=put" novalidate class="needs-validation">
 
         <div class="mb-3">  
                <label for="title" class="form-lable">Add a catchy title</label>
              
- <input type="text" name="title" id="" placeholder="Enter the title" value="<%= listing.title %>" class="form-control" required>
+ <input type="text" name="listing[title]"id="" placeholder="Enter the title" value="<%= listing.title %>" class="form-control" required>
   <div class="valid-feedback">
     title looks good!
     </div>
@@ -20,7 +20,7 @@
 
 <div class="mb-3">
 <label for="description" class="form-lable" >Description</label>
-<textarea name="description" id="" class="form-control" required><%= listing.description %></textarea>
+<textarea name="listing[description]" id="" class="form-control" required><%= listing.description %></textarea>
 <div class="invalid-feedback">
   enter a short description
     </div>
@@ -28,7 +28,7 @@
 
 <div class="mb-3">
   <label for="image" class="form-lable" >Image</label>
-<input type="text" name="image" id="" class="form-control" placeholder="enter img Url/link" value="<%= listing.image %>" required>
+<input type="text"name="listing[image]" id="" class="form-control" placeholder="enter img Url/link" value="<%= listing.image %>" required>
  <div class="invalid-feedback">
   enter a valid link
     </div>
@@ -37,7 +37,7 @@
 <div class="row">
 <div class="mb-3 col-md-4" >
 <label for="price" class="form-lable">Price</label>
-<input type="number" id="" name="price" placeholder="Enter the price" value="<%= listing.price %>" class="form-control" required>
+<input type="number" id="" name="listing[price]" placeholder="Enter the price" value="<%= listing.price %>" class="form-control" required>
  <div class="invalid-feedback">
   enter a valid price
     </div>
@@ -45,7 +45,7 @@
 
 <div class="mb-3 col-md-8">
   <label for="country" class="form-lable">Country</label>
-<input type="text" name="country" id="" placeholder="Enter the country" value="<%= listing.country%>" class="form-control" required>
+<input type="text"name="listing[country]" id="" placeholder="Enter the country" value="<%= listing.country%>" class="form-control" required>
  <div class="invalid-feedback">
   enter a valid country
     </div>
@@ -53,7 +53,7 @@
 </div>
 <div class="mb-3">
   <label for="location" class="form-lable">location</label>
-<input type="text" name="location" id="" placeholder="Enter the location" value="<%= listing.location %>" class="form-control" required>
+<input type="text" name="listing[location]" id="" placeholder="Enter the location" value="<%= listing.location %>" class="form-control" required>
  <div class="invalid-feedback">
   enter a valid location
     </div>
