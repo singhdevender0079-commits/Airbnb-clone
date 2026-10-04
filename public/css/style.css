@@ -1,0 +1,78 @@
+.fa-compass{
+    color: red;
+   font-size: 2rem;
+}
+.navbar{
+    height: 5rem;
+    background-color: white;
+}
+.nav-link{
+    color: black !important;
+}
+
+.f-info{
+    height: 5rem;
+    background-color:#ebebeb ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.f-info-links a{
+    text-decoration: none;
+    color: black;
+}
+
+.f-info-socials i{
+margin-left: 10px;
+font-size: 1.3rem;
+}
+
+.card{
+    border: none !important;
+  margin-bottom: 2rem;
+}
+.card-img-top{
+    border-radius: 1rem;
+    width: 100%;
+    object-fit: cover;
+}
+.card-body{
+    padding: 0px;
+}
+body{
+    font-family: "Plus Jakarta Sans", sans-serif;
+  font-optical-sizing: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.container{
+    flex: 1;
+}
+.listing-link{
+    text-decoration: none;
+}
+.card-img-overlay{
+    opacity: 0%;
+}
+.card:hover .card-img-overlay {
+    opacity: 0.3;
+    background-color: white;
+}
+.add-btn{
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+.img-show{
+    height: 40vh;
+    object-fit: fill;
+}
+.btns{
+
+    display: flex;
+    gap: 10px;
+
+}
