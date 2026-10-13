@@ -4,11 +4,11 @@ let app = express();
 let path = require("path");
 let methodOverride = require("method-override");
 const Listings = require("./models/listing.js");
-const Listing = require("./models/listing.js");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const { listingSchema } = require("./schema.js");
+const { listingSchema ,reviewSchema} = require("./schema.js");
+const Review = require("./models/review.js");
 let port = 8080;
 
 main()
@@ -62,12 +62,24 @@ let schemaValidate = (req, res, next) => {
     }
 }
 
+let reviewValidate = (req, res, next) => {
+    let result = reviewSchema.validate(req.body);
+
+    if (result.error) {
+        throw new ExpressError(404, result.error);
+    }
+    else {
+        next();
+    }
+}
+
+
 app.post("/listings", schemaValidate, wrapAsync(async (req, res) => {
     // let {title,description,image,price,place,country}=req.body;
     // if(! req.body.listing){
     // throw new ExpressError(400,"Enter valid data");
     // }
-    let newListing = new Listing(req.body.listing);
+    let newListing = new Listings(req.body.listing);
     //  title:title,
     //         description:description,
     //         image:image,
@@ -120,13 +132,38 @@ app.put("/listings/:id", schemaValidate, wrapAsync(async (req, res) => {
 }));
 app.delete("/listings/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
-    let deletedListing = await Listing.findByIdAndDelete(id);
+    let deletedListing = await Listings.findByIdAndDelete(id);
     res.redirect("/listings");
     console.log(deletedListing);
 }));
 
+
+app.post(
+    "/listings/:id/reviews",
+    reviewValidate,
+    wrapAsync(async (req, res) => {
+        const { id } = req.params;
+
+        const listing = await Listings.findById(id);
+
+        if (!listing) {
+            throw new ExpressError(404, "Listing not found");
+        }
+
+        const newReview = new Review(req.body.review);
+
+        await newReview.save();
+
+        listing.reviews.push(newReview._id);
+
+        await listing.save();
+
+        res.redirect(`/listings/${id}`);
+    })
+);
+
 // app.get("/testListing", async (req,res)=>{
-//     let sampleListing=new Listing({
+//     let sampleListing=new Listings({
 //         title:"My new villa",
 //         description:"By the beach",
 //         price:50000,
@@ -137,10 +174,6 @@ app.delete("/listings/:id", wrapAsync(async (req, res) => {
 //     console.log("sample was saved");
 //     res.send(" test succesfull");                                                                              
 // });
-
-
-
-
 
 app.all("/*splat", (req, res, next) => {
     next(new ExpressError(404, "This page does'nt exist"));

@@ -1,4 +1,5 @@
 let mongoose = require("mongoose");
+const Review = require("./review.js");
 let listingSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -23,6 +24,10 @@ v ===""? "https://images.unsplash.com/photo-1688653802629-5360086bf632?q=80&w=13
   country: {
     type: String,
   },
+  reviews:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref: "Review",
+  }],
 });
 
 let Listing=mongoose.model("Listing",listingSchema);

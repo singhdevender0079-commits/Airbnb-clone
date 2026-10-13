@@ -4,13 +4,12 @@
     <!-- <form method="get"  action="/listing/new">
         <button>create new listing</button>
     </form> -->
-
-    
     <div class="row row-cols-lg-3 ow-cols-md-3 row-cols-sm-1 ">
     <% for(listing of allListings){%>
       <a href="/listings/<%=listing._id%>" class="listing-link">
 <div class="card">
   <img src="<%= listing.image %>" class="card-img-top" alt="location_Image" style="height: 20rem;">
+  
   <div class="card-img-overlay">
   </div>
   <div class="card-body">
@@ -24,10 +23,5 @@
 </a>
   <%}  %>
   </div>
-
-
-
-
-
 </body>
 </html>
