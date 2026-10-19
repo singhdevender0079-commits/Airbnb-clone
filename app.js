@@ -10,7 +10,6 @@ const ExpressError = require("./utils/ExpressError.js");
 const { listingSchema ,reviewSchema} = require("./schema.js");
 const Review = require("./models/review.js");
 let port = 8080;
-
 main()
     .then(() => {
         console.log("cconnected");
@@ -21,7 +20,6 @@ main()
 async function main() {
     await mongoose.connect('mongodb://127.0.0.1:27017/Airbnb');
 }
-
 //! Middlewares
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -29,14 +27,10 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
-
-
-
 //! Routs
 app.get("/", (req, res) => {
     res.send("jai peeran di");
 });
-
 app.get("/listings", wrapAsync(async (req, res) => {
     let allListings = await Listings.find();
     res.render("listings/index.ejs", { allListings });
@@ -47,7 +41,7 @@ app.get("/listings/new", (req, res) => {
 });
 app.get("/listings/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
-    const listing = await Listings.findById(id);
+    const listing = await Listings.findById(id).populate("reviews");
     res.render("listings/show.ejs", { listing });
 }));
 
@@ -61,7 +55,6 @@ let schemaValidate = (req, res, next) => {
         next();
     }
 }
-
 let reviewValidate = (req, res, next) => {
     let result = reviewSchema.validate(req.body);
 
@@ -72,8 +65,6 @@ let reviewValidate = (req, res, next) => {
         next();
     }
 }
-
-
 app.post("/listings", schemaValidate, wrapAsync(async (req, res) => {
     // let {title,description,image,price,place,country}=req.body;
     // if(! req.body.listing){
@@ -86,7 +77,6 @@ app.post("/listings", schemaValidate, wrapAsync(async (req, res) => {
     //         price:price,
     //          place:place,
     //         country:country
-
     // });
     // if(!newListing.title){
     //     throw new ExpressError(404,"title is required");
@@ -130,6 +120,10 @@ app.put("/listings/:id", schemaValidate, wrapAsync(async (req, res) => {
     );
     res.redirect("/listings");
 }));
+
+
+
+
 app.delete("/listings/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
     let deletedListing = await Listings.findByIdAndDelete(id);
@@ -161,6 +155,19 @@ app.post(
         res.redirect(`/listings/${id}`);
     })
 );
+
+//! Review Delete
+
+app.delete("/listings/:id/reviews/:reviewId",wrapAsync(async (req,res)=>{
+    let {id , reviewId}=req.params;
+await Review.findByIdAndDelete(reviewId);
+await Listings.findByIdAndUpdate(id,{$pull:{reviews:reviewId}});
+
+res.redirect(`/listings/${id}`);
+}));
+
+
+
 
 // app.get("/testListing", async (req,res)=>{
 //     let sampleListing=new Listings({

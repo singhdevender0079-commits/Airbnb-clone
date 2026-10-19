@@ -28,9 +28,9 @@ margin-left: 10px;
 font-size: 1.3rem;
 }
 
-.card{
+.listing-card{
     border: none !important;
-  margin-bottom: 2rem;
+  marginbottom: 2rem;
 }
 .card-img-top{
     border-radius: 1rem;
