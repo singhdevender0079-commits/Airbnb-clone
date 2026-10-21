@@ -7,9 +7,10 @@ const Listings = require("./models/listing.js");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const { listingSchema ,reviewSchema} = require("./schema.js");
+const { listingSchema, reviewSchema } = require("./schema.js");
 const Review = require("./models/review.js");
-const listings=require("./routes/listing.js");
+const listings = require("./routes/listing.js");
+const reviews =require("./routes/review.js");
 let port = 8080;
 main()
     .then(() => {
@@ -40,6 +41,42 @@ let reviewValidate = (req, res, next) => {
         next();
     }
 }
+
+app.use("/listings", listings);
+app.use("/listings/:id/reviews", reviews);
+
+app.all("/*splat", (req, res, next) => {
+    next(new ExpressError(404, "This page does'nt exist"));
+});
+app.use((err, req, res, next) => {
+    let { statuscode = 400, message = "Something went wrong!" } = err;
+    res.status(statuscode).render("listings/error.ejs", { message });
+});
+app.listen(port, () => {
+    console.log(`Server listening at http://localhost:${port}/listings/`);
+});
+
+
+
+
+
+
+// app.get("/testListing", async (req,res)=>{
+//     let sampleListing=new Listings({
+//         title:"My new villa",
+//         description:"By the beach",
+//         price:50000,
+//         location:"Calangute , Goa",
+//         country:"India"
+//     })
+//     await sampleListing.save();
+//     console.log("sample was saved");
+//     res.send(" test succesfull");
+// });
+
+
+
+
 // app.post("/listings", schemaValidate, wrapAsync(async (req, res) => {
 //     // let {title,description,image,price,place,country}=req.body;
 //     // if(! req.body.listing){
@@ -77,33 +114,3 @@ let reviewValidate = (req, res, next) => {
 //     res.redirect("/listings");
 
 // }));
-
-
-
-
-// app.get("/testListing", async (req,res)=>{
-//     let sampleListing=new Listings({
-//         title:"My new villa",
-//         description:"By the beach",
-//         price:50000,
-//         location:"Calangute , Goa",
-//         country:"India"
-//     })
-//     await sampleListing.save();
-//     console.log("sample was saved");
-//     res.send(" test succesfull");                                                                              
-// });
-
-
-app.use("/listings", listings);
-
-app.all("/*splat", (req, res, next) => {
-    next(new ExpressError(404, "This page does'nt exist"));
-});
-app.use((err, req, res, next) => {
-    let { statuscode = 400, message = "Something went wrong!" } = err;
-    res.status(statuscode).render("listings/error.ejs", { message });
-});
-app.listen(port, () => {
-     console.log(`Server listening at http://localhost:${port}/listings/`);
-});

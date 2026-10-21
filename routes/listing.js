@@ -1,22 +1,11 @@
 let express = require("express");
-const router=express.Router();
+const router = express.Router();
 const ExpressError = require("../utils/ExpressError.js");
-const { listingSchema ,reviewSchema} = require("../schema.js");
+const { listingSchema } = require("../schema.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const Listings = require("../models/listing.js");
-const Review = require("../models/review.js");
 let schemaValidate = (req, res, next) => {
     let result = listingSchema.validate(req.body);
-
-    if (result.error) {
-        throw new ExpressError(404, result.error);
-    }
-    else {
-        next();
-    }
-}
-let reviewValidate = (req, res, next) => {
-    let result = reviewSchema.validate(req.body);
 
     if (result.error) {
         throw new ExpressError(404, result.error);
@@ -41,8 +30,6 @@ router.get("/:id", wrapAsync(async (req, res) => {
     const listing = await Listings.findById(id).populate("reviews");
     res.render("listings/show.ejs", { listing });
 }));
-
-
 router.get("/:id/edit", wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listings.findById(id);
@@ -61,9 +48,6 @@ router.put("/:id", schemaValidate, wrapAsync(async (req, res) => {
     res.redirect("/listings");
 }));
 
-
-
-
 router.delete("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
     let deletedListing = await Listings.findByIdAndDelete(id);
@@ -71,39 +55,4 @@ router.delete("/:id", wrapAsync(async (req, res) => {
     console.log(deletedListing);
 }));
 
-
-router.post(
-    "/:id/reviews",
-    reviewValidate,
-    wrapAsync(async (req, res) => {
-        const { id } = req.params;
-
-        const listing = await Listings.findById(id);
-
-        if (!listing) {
-            throw new ExpressError(404, "Listing not found");
-        }
-
-        const newReview = new Review(req.body.review);
-
-        await newReview.save();
-
-        listing.reviews.push(newReview._id);
-
-        await listing.save();
-
-        res.redirect(`/listings/${id}`);
-    })
-);
-
-//! Review Delete
-
-router.delete("/:id/reviews/:reviewId",wrapAsync(async (req,res)=>{
-    let {id , reviewId}=req.params;
-await Review.findByIdAndDelete(reviewId);
-await Listings.findByIdAndUpdate(id,{$pull:{reviews:reviewId}});
-
-res.redirect(`/listings/${id}`);
-}));
-
-module.exports=router;
+module.exports = router;
