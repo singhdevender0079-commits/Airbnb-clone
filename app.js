@@ -31,16 +31,7 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 //! Routs
 
-let reviewValidate = (req, res, next) => {
-    let result = reviewSchema.validate(req.body);
 
-    if (result.error) {
-        throw new ExpressError(404, result.error);
-    }
-    else {
-        next();
-    }
-}
 
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);

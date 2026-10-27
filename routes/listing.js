@@ -47,7 +47,11 @@ router.put("/:id", schemaValidate, wrapAsync(async (req, res) => {
     );
     res.redirect("/listings");
 }));
-
+router.post("/", schemaValidate, wrapAsync(async (req, res) => {
+    const newListing = new Listings(req.body.listing);
+    await newListing.save();
+    res.redirect("/listings");
+}));
 router.delete("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
     let deletedListing = await Listings.findByIdAndDelete(id);

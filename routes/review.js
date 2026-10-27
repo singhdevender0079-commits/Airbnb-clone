@@ -1,5 +1,5 @@
 let express = require("express");
-const router = express.Router();
+const router = express.Router({mergeParams:true});
 const Review = require("../models/review.js");
 const ExpressError = require("../utils/ExpressError.js");
 const { reviewSchema } = require("../schema.js");
