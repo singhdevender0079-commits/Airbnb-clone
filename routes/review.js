@@ -1,5 +1,5 @@
 let express = require("express");
-const router = express.Router({mergeParams:true});
+const router = express.Router({ mergeParams: true });
 const Review = require("../models/review.js");
 const ExpressError = require("../utils/ExpressError.js");
 const { reviewSchema } = require("../schema.js");
@@ -26,15 +26,10 @@ router.post("/",
         if (!listing) {
             throw new ExpressError(404, "Listing not found");
         }
-
         const newReview = new Review(req.body.review);
-
         await newReview.save();
-
         listing.reviews.push(newReview._id);
-
         await listing.save();
-
         res.redirect(`/listings/${id}`);
     })
 );

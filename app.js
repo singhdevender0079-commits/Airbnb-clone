@@ -48,10 +48,6 @@ app.listen(port, () => {
 });
 
 
-
-
-
-
 // app.get("/testListing", async (req,res)=>{
 //     let sampleListing=new Listings({
 //         title:"My new villa",
@@ -64,10 +60,6 @@ app.listen(port, () => {
 //     console.log("sample was saved");
 //     res.send(" test succesfull");
 // });
-
-
-
-
 // app.post("/listings", schemaValidate, wrapAsync(async (req, res) => {
 //     // let {title,description,image,price,place,country}=req.body;
 //     // if(! req.body.listing){
@@ -93,7 +85,6 @@ app.listen(port, () => {
 //     // if(!newListing.location){
 //     //     throw new ExpressError(404,"place is required");
 //     // }
-
 //     // if(!newListing.price){
 //     //     throw new ExpressError(404,"price is required");
 //     // }
@@ -103,5 +94,4 @@ app.listen(port, () => {
 //     await newListing.save();
 //     console.log("sample was saved");
 //     res.redirect("/listings");
-
 // }));
