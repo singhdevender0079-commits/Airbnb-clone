@@ -11,6 +11,8 @@ const { listingSchema, reviewSchema } = require("./schema.js");
 const Review = require("./models/review.js");
 const listings = require("./routes/listing.js");
 const reviews =require("./routes/review.js");
+const session=require("express-session");
+const flash=require("connect-flash");
 let port = 8080;
 main()
     .then(() => {
@@ -29,10 +31,28 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
+const sessionOptions={
+    secret: "mysecretcode",
+    resave: false,
+    saveUninitialized: true,
+   cookie: {
+    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true
+    },
+};
+app.get("/",(req,res)=>{
+    res.send("Jai peeran di");
+});
+app.use(session(sessionOptions));
+app.use(flash());
+app.use((req, res, next) => {
+    res.locals.succes = req.flash("succes");
+    res.locals.error = req.flash("error");
+    next();
+});
+
 //! Routs
-
-
-
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
 
@@ -40,8 +60,8 @@ app.all("/*splat", (req, res, next) => {
     next(new ExpressError(404, "This page does'nt exist"));
 });
 app.use((err, req, res, next) => {
-    let { statuscode = 400, message = "Something went wrong!" } = err;
-    res.status(statuscode).render("listings/error.ejs", { message });
+    let { statusCode = 400, message = "Something went wrong!" } = err;
+    res.status(statusCode).render("listings/error.ejs", { message });
 });
 app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}/listings/`);

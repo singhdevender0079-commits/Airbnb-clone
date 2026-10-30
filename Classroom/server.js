@@ -33,8 +33,6 @@ app.get("/hello",(req,res)=>{
     res.render("page.ejs",{name:req.session.name,msg:req.flash("succes")});
 });
 
-
-
 app.get("/test", (req, res) => {
     res.send("tested succesfully");
 });

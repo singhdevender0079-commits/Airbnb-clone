@@ -28,33 +28,45 @@ router.get("/new", (req, res) => {
 router.get("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listings.findById(id).populate("reviews");
+    if(!listing){
+        req.flash("error","Listing doesn't exist");
+      return res.redirect("/listings");
+    }
     res.render("listings/show.ejs", { listing });
 }));
 router.get("/:id/edit", wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listings.findById(id);
+       if(!listing){
+        req.flash("error","Listing doesn't exist");
+      return res.redirect("/listings");
+    }
     res.render("listings/edit.ejs", { listing });
 }));
 
 router.put("/:id", schemaValidate, wrapAsync(async (req, res) => {
 
     let { id } = req.params;
-
     await Listings.findByIdAndUpdate(
         id,
         req.body.listing,
         { runValidators: true }
     );
+     req.flash("succes","Listing updated successfully");
     res.redirect("/listings");
 }));
-router.post("/", schemaValidate, wrapAsync(async (req, res) => {
+router.post("/", 
+    schemaValidate, wrapAsync(async (req, res) => {
     const newListing = new Listings(req.body.listing);
     await newListing.save();
+    req.flash("succes","new listing created successfully");
+
     res.redirect("/listings");
 }));
 router.delete("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
     let deletedListing = await Listings.findByIdAndDelete(id);
+     req.flash("succes","Listing deleted successfully");
     res.redirect("/listings");
     console.log(deletedListing);
 }));
