@@ -3,7 +3,12 @@ const app = express();
 const posts = require("./routes/post.js");
 const users = require("./routes/user.js");
 const session = require("express-session");
+const flash = require('connect-flash');
+const path=require("path");
 const port = 3000;
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 app.get("/", (req, res) => {
     res.send("jai peeran di");
@@ -14,16 +19,19 @@ const sessionOptions={
     resave: false,
     saveUninitialized: true,
 }
+app.use(flash());
 app.use(session(sessionOptions));
 app.get("/register",(req,res)=>{
     const {name}=req.query;
     req.session.name=name;
+    req.flash("succes","new user registerd succesfully !");
     console.log(req.session.name);
+
     res.redirect("/hello");
 });
 app.get("/hello",(req,res)=>{
-    res.send(`hello ${req.session.name}`)
-})
+    res.render("page.ejs",{name:req.session.name,msg:req.flash("succes")});
+});
 
 
 
