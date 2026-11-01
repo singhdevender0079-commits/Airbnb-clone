@@ -13,6 +13,9 @@ const listings = require("./routes/listing.js");
 const reviews =require("./routes/review.js");
 const session=require("express-session");
 const flash=require("connect-flash");
+const User=require("./models/User.js");
+const passport=require("passport");
+const LocalStrategy=require("passport-local");
 let port = 8080;
 main()
     .then(() => {
@@ -46,12 +49,27 @@ app.get("/",(req,res)=>{
 });
 app.use(session(sessionOptions));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+// use static authenticate method of model in LocalStrategy
+passport.use(new LocalStrategy(User.authenticate()));
+// use static serialize and deserialize of model for passport session support
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
     res.locals.succes = req.flash("succes");
     res.locals.error = req.flash("error");
     next();
 });
 
+app.get("/demouser",async (req,res)=>{
+let fakeuser=new User({
+    email:"abc@gmail.com",
+    username:"gabber"
+})
+let registerdUser=await User.register(fakeuser,"abc");
+res.send(registerdUser);
+});
 //! Routs
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
