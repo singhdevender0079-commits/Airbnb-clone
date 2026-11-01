@@ -9,13 +9,15 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const { listingSchema, reviewSchema } = require("./schema.js");
 const Review = require("./models/review.js");
-const listings = require("./routes/listing.js");
-const reviews =require("./routes/review.js");
+const listingsRouter = require("./routes/listing.js");
+const reviewsRouter =require("./routes/review.js");
+const userRouter=require("./routes/user.js");
 const session=require("express-session");
 const flash=require("connect-flash");
 const User=require("./models/User.js");
 const passport=require("passport");
 const LocalStrategy=require("passport-local");
+
 let port = 8080;
 main()
     .then(() => {
@@ -62,18 +64,18 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get("/demouser",async (req,res)=>{
-let fakeuser=new User({
-    email:"abc@gmail.com",
-    username:"gabber"
-})
-let registerdUser=await User.register(fakeuser,"abc");
-res.send(registerdUser);
-});
+// app.get("/demouser",async (req,res)=>{
+// let fakeuser=new User({
+//     email:"abc@gmail.com",
+//     username:"gabber"
+// })
+// let registerdUser=await User.register(fakeuser,"abc");
+// res.send(registerdUser);
+// });
 //! Routs
-app.use("/listings", listings);
-app.use("/listings/:id/reviews", reviews);
-
+app.use("/listings", listingsRouter);
+app.use("/listings/:id/reviews", reviewsRouter);
+app.use("/",userRouter);
 app.all("/*splat", (req, res, next) => {
     next(new ExpressError(404, "This page does'nt exist"));
 });

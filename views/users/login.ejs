@@ -1,0 +1,21 @@
+<% layout("/layouts/boilerplate") %>
+
+    <div class="row-3 mt-3">
+        <h2>login to Airbnb</h2>
+        <div class="col-6,offset-3">
+            <form action="/login" method="post">
+                <div class="mb-3">
+                    <label for="username" class="form-lable">username :</label>
+                    <input type="text" name="username" id="username" placeholder="Enter username" class="form-control"
+                        required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-lable">password :</label>
+                    <input type="password" name="password" id="password" placeholder="Enter your password"
+                        class="form-control" required>
+                </div>
+                <button class="btn btn-success">login</button>
+            </form>
+
+        </div>
+    </div>
