@@ -3,10 +3,9 @@ const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const flash = require("connect-flash");
 const User = require("../models/User.js");
-const passport=require("passport");
+const passport = require("passport");
 //! signup
 router.get("/signup", (req, res) => {
-
     res.render("users/signup.ejs")
 });
 router.post("/signup", wrapAsync(async (req, res) => {
@@ -21,7 +20,6 @@ router.post("/signup", wrapAsync(async (req, res) => {
         req.flash("error", e.message);
         res.redirect("/signup");
     }
-
 }));
 
 //* login
@@ -29,13 +27,13 @@ router.post("/signup", wrapAsync(async (req, res) => {
 router.get("/login", (req, res) => {
     res.render("users/login.ejs");
 });
-router.post("/login",passport.authenticate('local', { 
+router.post("/login", passport.authenticate('local', {
     failureRedirect: '/login',
-failureFlash:true
- }),
- wrapAsync(async(req,res)=>{
-req.flash("succes","welcome back to Airbnb");
-res.redirect("/listings");
-}));
+    failureFlash: true
+}),
+    wrapAsync(async (req, res) => {
+        req.flash("succes", "welcome back to Airbnb");
+        res.redirect("/listings");
+    }));
 
 module.exports = router;

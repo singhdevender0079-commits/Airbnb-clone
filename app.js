@@ -17,7 +17,6 @@ const flash=require("connect-flash");
 const User=require("./models/User.js");
 const passport=require("passport");
 const LocalStrategy=require("passport-local");
-
 let port = 8080;
 main()
     .then(() => {
