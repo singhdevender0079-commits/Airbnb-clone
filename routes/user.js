@@ -35,5 +35,15 @@ router.post("/login", passport.authenticate('local', {
         req.flash("succes", "welcome back to Airbnb");
         res.redirect("/listings");
     }));
+    //! logout route
+    router.get("/logout",(req,res,next)=>{
+req.logout((err)=>{
+    if(err){
+      return  next(err);
+    }
+    req.flash("succes","you logged out successfully");
+    res.redirect("/listings");
+})
+    });
 
 module.exports = router;
