@@ -13,8 +13,15 @@ router.post("/signup", wrapAsync(async (req, res) => {
         let { username, email, password } = req.body;
         let newUser = new User({ email, username });
         let registerdUser = await User.register(newUser, password);
-        req.flash("succes", "welcome to airbnb");
+        //! to perform automatically login after signup operation
+        req.login(registerdUser,(err)=>{
+            if(err){
+                return next(err);
+            }
+    req.flash("succes", "welcome to airbnb");
         res.redirect("/listings");
+        })
+    
     }
     catch (e) {
         req.flash("error", e.message);
