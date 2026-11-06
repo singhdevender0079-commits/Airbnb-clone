@@ -28,6 +28,12 @@ v ===""? "https://images.unsplash.com/photo-1688653802629-5360086bf632?q=80&w=13
     type:mongoose.Schema.Types.ObjectId,
     ref: "Review",
   }],
+owner:{
+  type:mongoose.Schema.Types.ObjectId,
+  ref:"User"
+}
+
+
 });
 
 let Listing=mongoose.model("Listing",listingSchema);

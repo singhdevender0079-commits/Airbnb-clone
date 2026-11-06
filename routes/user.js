@@ -14,7 +14,7 @@ router.post("/signup", wrapAsync(async (req, res) => {
         let newUser = new User({ email, username });
         let registerdUser = await User.register(newUser, password);
         
-        //* to perform automatically login after signup operation
+        //*to perform automatically login after signup operation
         req.login(registerdUser,(err)=>{
             if(err){
                 return next(err);
@@ -31,7 +31,6 @@ router.post("/signup", wrapAsync(async (req, res) => {
 }));
 
 //* login
-
 router.get("/login", (req, res) => {
     res.render("users/login.ejs");
 });
@@ -43,7 +42,7 @@ router.post("/login", passport.authenticate('local', {
         req.flash("succes", "welcome back to Airbnb");
         res.redirect("/listings");
     }));
-    //! logout route
+    //* logout route
     router.get("/logout",(req,res,next)=>{
 req.logout((err)=>{
     if(err){
