@@ -28,7 +28,7 @@ router.get("/new", isLoggedIn,(req, res) => {
 });
 router.get("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
-    const listing = await Listings.findById(id).populate("reviews");
+    const listing = await Listings.findById(id).populate("reviews").populate("owner");
     if(!listing){
         req.flash("error","Listing doesn't exist");
       return res.redirect("/listings");
@@ -42,12 +42,21 @@ router.get("/:id/edit",isLoggedIn, wrapAsync(async (req, res) => {
         req.flash("error","Listing doesn't exist");
       return res.redirect("/listings");
     }
+if(!listing.owner.equals(req.user._id)){
+    req.flash("error","you don't have permission edit");
+    return res.redirect("/listings");
+}
     res.render("listings/edit.ejs", { listing });
 }));
 
 router.put("/:id", schemaValidate, wrapAsync(async (req, res) => {
 
     let { id } = req.params;
+        const listing = await Listings.findById(id);
+        if(!listing.owner.equals(req.user._id)){
+            req.flash("error","you don't have permission to  edit this listing");
+            res.redirect("/listings");
+        }
     await Listings.findByIdAndUpdate(
         id,
         req.body.listing,
@@ -58,7 +67,9 @@ router.put("/:id", schemaValidate, wrapAsync(async (req, res) => {
 }));
 router.post("/", 
     schemaValidate, wrapAsync(async (req, res) => {
+        
     const newListing = new Listings(req.body.listing);
+    newListing.owner=req.user._id;
     await newListing.save();
     req.flash("succes","new listing created successfully");
 
@@ -66,10 +77,20 @@ router.post("/",
 }));
 router.delete("/:id",isLoggedIn, wrapAsync(async (req, res) => {
     let { id } = req.params;
-    let deletedListing = await Listings.findByIdAndDelete(id);
+     let deletedListing =  await Listings.findById(id);
+     if(!deletedListing){
+        req.flash("error","Listing does'not exist");
+       return res.redirect("/listings");
+     }
+     if(!deletedListing.owner.equals(req.user._id)){
+        req.flash("error","You don,t have permission to delete this listing");
+       return res.redirect("/listings");
+     }
+   await Listings.findByIdAndDelete(id);
      req.flash("succes","Listing deleted successfully");
-    res.redirect("/listings");
-    console.log(deletedListing);
+     console.log(deletedListing);
+  return  res.redirect("/listings");
+    
 }));
 
 module.exports = router;

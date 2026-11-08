@@ -1,5 +1,6 @@
 let mongoose = require("mongoose");
 const Review = require("./review.js");
+const User=require("./User.js");
 let listingSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -32,8 +33,6 @@ owner:{
   type:mongoose.Schema.Types.ObjectId,
   ref:"User"
 }
-
-
 });
 
 let Listing=mongoose.model("Listing",listingSchema);

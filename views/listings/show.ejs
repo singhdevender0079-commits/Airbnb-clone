@@ -6,16 +6,16 @@
 <div class="card col-6 offset-3 listing-card">
   <img src="<%= listing.image %>" class="card-img-top img-show" alt="list_img">
   <div class="card-body">
-        <%= listing.description %>
+    <p><%= listing.owner.username %></p>
+       <p> <%= listing.description %></p>
         <br>
-₹  <%= listing.price.toLocaleString("en-IN")%><br>
-<%= listing.location %>
+<p>₹  <%= listing.price.toLocaleString("en-IN")%></p><br>
+<p><%= listing.location %></p>
 <br>
-<%= listing.country %>
+<p><%= listing.country %></p>
     </p>
   </div>
 </div>
-
 </div>
 <div class="btns offset-3">
     <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark">Edit</a>
