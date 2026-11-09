@@ -5,6 +5,7 @@ const { listingSchema } = require("../schema.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const Listings = require("../models/listing.js");
 const {isLoggedIn}=require("../middleware.js");
+const Review=require("./review.js");
 let schemaValidate = (req, res, next) => {
     let result = listingSchema.validate(req.body);
 
@@ -28,7 +29,19 @@ router.get("/new", isLoggedIn,(req, res) => {
 });
 router.get("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
-    const listing = await Listings.findById(id).populate("reviews").populate("owner");
+const listing = await Listings.findById(id)
+    .populate("owner")
+    .populate({
+        path: "reviews",
+        populate: {
+            path: "createdBy"
+        }
+    });
+        console.log(listing.reviews.map(r => ({
+        comment: r.comment,
+        createdBy: r.createdBy
+    })));
+
     if(!listing){
         req.flash("error","Listing doesn't exist");
       return res.redirect("/listings");

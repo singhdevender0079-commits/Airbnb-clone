@@ -46,10 +46,12 @@
 <hr>
 <p><b>All reviews</b></p>
 <% for(review of  listing.reviews ){ %>
-<div class="card mb-4">
-  <div class="card-header">
-Jon Jones
-  </div>
+<div class="card-header">
+    <%= review.createdBy
+        ? review.createdBy.username
+        : "Unknown User" %>
+</div>
+
   <div class="card-body">
     <h5 class="card-title pt-3 ps-3"><%= review.rating %>⭐</h5>
     <p class="card-text ps-3 pe-3"><%= review.comment %></p>
