@@ -47,9 +47,9 @@
 <p><b>All reviews</b></p>
 <% for(review of  listing.reviews ){ %>
 <div class="card-header">
-    <%= review.createdBy
+   <p> <%= review.createdBy
         ? review.createdBy.username
-        : "Unknown User" %>
+        : "Unknown User" %></p>
 </div>
 
   <div class="card-body">
@@ -59,7 +59,6 @@
       <button class="btn btn-outline-dark ms-3 mb-2">Delete</button>
     </form>
   </div>
-</div>
 <% } %>
 </div>
 </body>
