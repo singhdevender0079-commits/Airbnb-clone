@@ -6,6 +6,8 @@ const { reviewSchema } = require("../schema.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const Listings = require("../models/listing.js");
 const {isLoggedIn}=require("../middleware.js");
+const reviewController=require("../controllers/reviews.js");
+
 let reviewValidate = (req, res, next) => {
     let result = reviewSchema.validate(req.body);
 
@@ -16,46 +18,9 @@ let reviewValidate = (req, res, next) => {
         next();
     }
 }
-router.post("/",isLoggedIn,
-    reviewValidate,
-    wrapAsync(async (req, res) => {
-        const { id } = req.params;
-         const listing = await Listings.findById(id);
-        const newReview = new Review(req.body.review);
-        newReview.createdBy=req.user._id;
-        console.log("Logged in User:", req.user);
-console.log("Created By:", newReview.createdBy);
-
-        await newReview.save();
-        listing.reviews.push(newReview._id);
-        await listing.save();
-        req.flash("succes", "Review added successfully");
-        res.redirect(`/listings/${id}`);
-    })
-);
+router.post("/",isLoggedIn,reviewValidate,wrapAsync(reviewController.postReview));
 
 //! Review Delete
 
-router.delete("/:reviewId",isLoggedIn, wrapAsync(async (req, res) => {
-    let { id, reviewId } = req.params;
-
-        const listing = await Listings.findById(id);
-const review=await Review.findById(reviewId);
-        if (!review) {
-            throw new ExpressError(404, "Listing not found");
-        }
-
-if (!review.createdBy) {
-    req.flash("error", "This review has no creator information");
-    return res.redirect(`/listings/${id}`);
-}
-        if(!review.createdBy.equals(req.user._id)){
-            req.flash("error","You don't have access to delete this review ");
-          return  res.redirect("/listings");
-        }
-    await Review.findByIdAndDelete(reviewId);
-    await Listings.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    req.flash("succes", "review deleted successfully");
-    return res.redirect(`/listings/${id}`);
-}));
+router.delete("/:reviewId",isLoggedIn, wrapAsync(reviewController.deleteReview));
 module.exports = router;
