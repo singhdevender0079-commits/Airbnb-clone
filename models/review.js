@@ -15,7 +15,7 @@ createdAt:{
 type:Date,
 default:Date.now,
 },
-owner:{
+createdBy:{
   type:mongoose.Schema.Types.ObjectId,
   ref:"User"
 }

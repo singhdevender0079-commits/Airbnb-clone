@@ -22,6 +22,7 @@ router.post("/",isLoggedIn,
         const { id } = req.params;
          const listing = await Listings.findById(id);
         const newReview = new Review(req.body.review);
+        newReview.createdBy=req.user._id;
         await newReview.save();
         listing.reviews.push(newReview._id);
         await listing.save();
@@ -36,11 +37,11 @@ router.delete("/:reviewId",isLoggedIn, wrapAsync(async (req, res) => {
     let { id, reviewId } = req.params;
 
         const listing = await Listings.findById(id);
-
+const review=await Review.findById(reviewId);
         if (!listing) {
             throw new ExpressError(404, "Listing not found");
         }
-        if(!listing.owner.equals("req.reviews._id")){
+        if(!review.createdBy.equals(req.user._id)){
             req.flash("error","You don't have access to delete this review ");
           return  res.redirect("/listings");
         }
