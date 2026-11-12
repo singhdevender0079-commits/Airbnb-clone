@@ -20,17 +20,21 @@ let schemaValidate = (req, res, next) => {
 // router.get("/", (req, res) => {
 //     res.send("jai peeran di");
 // });
-router.get("/",wrapAsync(listingController.index));
+
+router.route("/")
+.get(wrapAsync(listingController.index))
+.post( schemaValidate, wrapAsync(listingController.postForNewListing));
+
 
 router.get("/new", isLoggedIn,listingController.renderNewFrom);
 
-router.get("/:id", wrapAsync(listingController.showListing));
+router.route("/:id")
+.get( wrapAsync(listingController.showListing))
+.put( schemaValidate, wrapAsync(listingController.putRequest))
+.delete(isLoggedIn, wrapAsync(listingController.deleteRoute));
+
+
 
 router.get("/:id/edit",isLoggedIn, wrapAsync(listingController.renderEditForm));
-
-router.put("/:id", schemaValidate, wrapAsync(listingController.putRequest));
-router.post("/", schemaValidate, wrapAsync(listingController.postForNewListing));
-
-router.delete("/:id",isLoggedIn, wrapAsync(listingController.deleteRoute));
 
 module.exports = router;
