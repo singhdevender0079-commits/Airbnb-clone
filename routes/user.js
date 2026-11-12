@@ -6,21 +6,24 @@ const User = require("../models/User.js");
 const passport = require("passport");
 const userController=require("../controllers/users.js");
 //! signup
-router.get("/signup", userController.renderSignupForm);
 
 
-router.post("/signup", wrapAsync(userController.postSignupForm ));
+router.route("/signup")
+.get( userController.renderSignupForm)
+.post( wrapAsync(userController.postSignupForm ));
+
+
 
 //* login
-router.get("/login",userController.renderLoginForm );
 
+router.route("/login")
+.get(userController.renderLoginForm )
 
-router.post("/login", passport.authenticate('local', {
+.post( passport.authenticate('local', {
     failureRedirect: '/login',
     failureFlash: true
 }),
     wrapAsync(userController.postLoginForm));
-
 
 
     //* logout route
