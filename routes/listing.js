@@ -7,6 +7,8 @@ const Listings = require("../models/listing.js");
 const {isLoggedIn}=require("../middleware.js");
 const Review=require("./review.js");
 const listingController=require("../controllers/listings.js");
+const multer  = require('multer');
+const upload = multer({ dest: 'uploads/' });
 let schemaValidate = (req, res, next) => {
     let result = listingSchema.validate(req.body);
 
@@ -23,8 +25,10 @@ let schemaValidate = (req, res, next) => {
 
 router.route("/")
 .get(wrapAsync(listingController.index))
-.post( schemaValidate, wrapAsync(listingController.postForNewListing));
-
+// .post( schemaValidate, wrapAsync(listingController.postForNewListing));
+.post(upload.single('listing[image]'),(req,res)=>{
+    res.send(req.file);
+})
 
 router.get("/new", isLoggedIn,listingController.renderNewFrom);
 
