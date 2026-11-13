@@ -1,3 +1,6 @@
+require('dotenv').config()
+
+console.log(process.env.API_KEY);
 let mongoose = require("mongoose");
 let express = require("express");
 let app = express();
