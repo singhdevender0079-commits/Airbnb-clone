@@ -26,10 +26,10 @@ let schemaValidate = (req, res, next) => {
 
 router.route("/")
 .get(wrapAsync(listingController.index))
-// .post( schemaValidate, wrapAsync(listingController.postForNewListing));
-.post(upload.single('listing[image]'),(req,res)=>{
-    res.send(req.file);
-})
+.post(isLoggedIn,
+     upload.single('listing[image]'),
+// ,schemaValidate, 
+wrapAsync(listingController.postForNewListing));
 
 router.get("/new", isLoggedIn,listingController.renderNewFrom);
 
