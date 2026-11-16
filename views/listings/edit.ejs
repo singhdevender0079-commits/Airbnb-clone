@@ -22,9 +22,16 @@
 <label for="description" class="form-lable" >Description</label>
 <textarea name="listing[description]" id="" class="form-control" required><%= listing.description %></textarea>
 <div class="invalid-feedback">
-  enter a short description
+  Enter a short description
     </div>
 </div>
+
+<div class="mb-3">
+<p>Origional listig image</p>
+  
+<img class="image" src="<%= listing.image.url %>" alt="">
+</div>
+
 
 <div class="mb-3">
   <label for="image" class="form-lable" >Image</label>

@@ -27,8 +27,8 @@ let schemaValidate = (req, res, next) => {
 router.route("/")
 .get(wrapAsync(listingController.index))
 .post(isLoggedIn,
-     upload.single('listing[image]')
-,schemaValidate, 
+     upload.single('listing[image]'),
+// ,schemaValidate, 
 wrapAsync(listingController.postForNewListing));
 
 router.get("/new", isLoggedIn,listingController.renderNewFrom);
@@ -36,7 +36,7 @@ router.get("/new", isLoggedIn,listingController.renderNewFrom);
 router.route("/:id")
 .get( wrapAsync(listingController.showListing))
 .put(upload.single('listing[image]'),
- schemaValidate,
+//  schemaValidate,
  wrapAsync(listingController.putRequest))
 .delete(isLoggedIn, wrapAsync(listingController.deleteRoute));
 
