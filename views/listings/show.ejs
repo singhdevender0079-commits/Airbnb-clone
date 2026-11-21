@@ -1,5 +1,5 @@
 <% layout("/layouts/boilerplate") %>
-
+ <script>let mapToken="<%= process.env.MAP_KEY%>"</script>
   <body>
     <br>
     <h3 class="offset-2">
@@ -95,13 +95,4 @@
 
     </div>
 
-   
-  <script>
-    let mapToken="<%= process.env.MAP_KEY%>"
-    const map = new mapboxgl.Map({
-        accessToken:mapToken,
-        container: 'map', // container ID
-        center: [-71.06776, 42.35816], // starting position [lng, lat]. Note that lat must be set between -90 and 90
-        zoom: 9 // starting zoom
-    });
-</script>
+<script src="/js/map.js"></script>
