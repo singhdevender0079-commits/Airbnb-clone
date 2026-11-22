@@ -106,5 +106,4 @@ module.exports.deleteRoute = async (req, res) => {
     await Listings.findByIdAndDelete(id);
     req.flash("succes", "Listing deleted successfully");
     return res.redirect("/listings");
-
 };

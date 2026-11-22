@@ -1,5 +1,7 @@
 <% layout("/layouts/boilerplate") %>
- <script>let mapToken="<%= process.env.MAP_KEY%>"</script>
+ <script>let mapToken="<%= process.env.MAP_KEY%>";
+ let listing= <%-JSON.stringify(listing)%>;
+ </script>
   <body>
     <br>
     <h3 class="offset-2">
