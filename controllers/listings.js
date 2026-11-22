@@ -1,3 +1,7 @@
+let mapToken=process.env.MAP_KEY;
+
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 const Listings = require("../models/listing");
 module.exports.index = async (req, res) => {
     let allListings = await Listings.find();
@@ -65,15 +69,25 @@ updatedListing.image={url,filename};
     res.redirect("/listings");
 };
 
-
+//!  Maps geocoding
 module.exports.postForNewListing = async (req, res) => {
+    let response=await geocodingClient.forwardGeocode({
+  query: req.body.listing.location,
+  limit: 1
+})
+  .send();
+// console.log(` Longitude - ${response.body.features[0].geometry.coordinates[0]}`);
+// console.log(` Latitude - ${response.body.features[0].geometry.coordinates[1]}`);
+// res.send("done!");
     let url = req.file.path;
     let filename = req.file.filename;
-
     const newListing = new Listings(req.body.listing);
     newListing.owner = req.user._id;
     newListing.image = { url, filename };
-    await newListing.save();
+newListing.geometry=response.body.features[0].geometry;
+ let data=   await newListing.save();
+
+ console.log(data);
     req.flash("succes", "new listing created successfully");
 
     res.redirect("/listings");
@@ -91,7 +105,6 @@ module.exports.deleteRoute = async (req, res) => {
     }
     await Listings.findByIdAndDelete(id);
     req.flash("succes", "Listing deleted successfully");
-    console.log(deletedListing);
     return res.redirect("/listings");
 
 };
