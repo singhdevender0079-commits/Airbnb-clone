@@ -2,7 +2,7 @@
         accessToken:mapToken,
         container: 'map', // container ID
         center:listing.geometry.coordinates, // starting position [lng, lat]. Note that lat must be set between -90 and 90
-        zoom: 9 // starting zoom
+        zoom: 1// starting zoom
     });
 console.log(listing.geometry.coordinates);
 // Create a new marker.
