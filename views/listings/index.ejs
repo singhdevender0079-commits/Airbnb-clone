@@ -1,10 +1,49 @@
 <% layout("/layouts/boilerplate") %>
 <body>
-    <h3>All listings</h3>
+    <!-- <h3>All listings</h3> -->
     <!-- <form method="get"  action="/listing/new">
         <button>create new listing</button>
     </form> -->
-    <div class="row row-cols-lg-3 ow-cols-md-3 row-cols-sm-1 ">
+    <div id="filters">
+<div id="filter">
+<i class="fa-solid fa-fire"></i>
+Trending
+</div>
+<div id="filter">
+<i class="fa-solid fa-bed"></i>
+Rooms
+</div>
+<div id="filter">
+<i class="fa-solid fa-city"></i>
+Cities
+</div>
+<div id="filter">
+<i class="fa-solid fa-mountain"></i>
+Mountains
+</div>
+<div id="filter">
+<i class="fa-solid fa-person-swimming"></i>
+Pool
+</div>
+<div id="filter">
+  <i class="fa-solid fa-campground"></i>
+  Camping
+</div>
+<div id="filter">
+<i class="fa-solid fa-tractor"></i>
+farm
+</div>
+<div id="filter">
+  <i class="fa-brands fa-fort-awesome"></i>
+  Castels
+</div>
+<div id="filter">
+ <i class="fa-regular fa-snowflake"></i>
+ Snow
+</div>
+
+    </div>
+    <div class="row row-cols-lg-3 ow-cols-md-3 row-cols-sm-1 mt-2">
     <% for(listing of allListings){%>
       <a href="/listings/<%=listing._id%>" class="listing-link">
 <div class="card listing-card">
