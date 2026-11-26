@@ -1,3 +1,19 @@
+<style>
+.btn-search{
+    background-color: #fe424d;
+    color: white;
+    border-radius: 20px;
+}
+ .btn-search:hover{
+       background-color: #fe424d;
+    color: white;
+ }
+ .me-2{
+    border-radius: 20px;
+    width: 300px;
+ }
+
+</style>
 <nav class="navbar navbar-expand-md bg-body-tertiary border-bottom  sticky-top ">
     <div class="container-fluid">
         <a class="navbar-brand" href="#"><i class="fa-regular fa-compass"></i></a>
@@ -8,6 +24,13 @@
         <div class="navbar-nav">
                     <a class="nav-link " href="/listings">Explore</a>
         </div>
+
+     <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search destination" aria-label="Search"/>
+        <button class="btn btn-outline btn-search" type="submit">Search</button>
+      </form>
+
+
         <div class="navbar-nav ms-auto">
                <a class="nav-link" href="/listings/new">Airbnb your home</a>
             <% if(!curruser){ %>
@@ -20,4 +43,6 @@
     } %>
         </div>
     </div>
+
+
 </nav>

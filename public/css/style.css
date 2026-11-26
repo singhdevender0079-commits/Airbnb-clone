@@ -87,8 +87,19 @@ body{
     display: flex;
 height: 80px;
 width: 100%;
-border: 1px solid;
+
+align-items: center;
 gap: 25px;
+
+}
+.icons{
+    display: flex;
+align-items: center;
+justify-content: start;
+
+height: 100%;
+width: 73%;
+gap: 28px ;
 }
 #filter{
     display: flex;
@@ -99,4 +110,19 @@ gap: 25px;
 }
 #filter i {
     font-size: 20px;
+}
+.toggle{
+    display: flex;
+border: 1px solid;
+width: 21%;
+height: 70%;
+align-items: center;
+justify-content: start;
+padding-left:8px;
+border-radius: 10px;
+padding-right: 5px;
+}
+
+.d-flex{
+    margin-left: 400px;
 }
