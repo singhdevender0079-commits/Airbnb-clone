@@ -14,12 +14,13 @@ const listingsRouter = require("./routes/listing.js");
 const reviewsRouter =require("./routes/review.js");
 const userRouter=require("./routes/user.js");
 const session=require("express-session");
+const MongoStore = require("connect-mongo").default;
 const flash=require("connect-flash");
 const User=require("./models/User.js");
 const passport=require("passport");
 const LocalStrategy=require("passport-local");
-
-db_url=process.env.MONGODB_ATLAS;
+const secret="mysupersecretcode";
+const db_url=process.env.MONGODB_ATLAS;
 
 let port = 8080;
 main()
@@ -39,7 +40,22 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
+
+const store= MongoStore.create({
+      mongoUrl: db_url,
+crypto:{
+     secret: "mysecretcode",
+   
+},
+  touchAfter:24*3600
+  });
+
+store.on("error",()=>{
+    console.log("error in mongo store" ,err);
+});
+
 const sessionOptions={
+    store,
     secret: "mysecretcode",
     resave: false,
     saveUninitialized: true,
