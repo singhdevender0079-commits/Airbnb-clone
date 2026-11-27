@@ -2,6 +2,8 @@ let mapToken=process.env.MAP_KEY;
 
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
+
+
 const Listings = require("../models/listing");
 module.exports.index = async (req, res) => {
     let allListings = await Listings.find();
@@ -106,4 +108,20 @@ module.exports.deleteRoute = async (req, res) => {
     await Listings.findByIdAndDelete(id);
     req.flash("succes", "Listing deleted successfully");
     return res.redirect("/listings");
+};
+module.exports.Searching = async (req, res) => {
+    let { search } = req.body;
+    let allListings = await Listings.find({
+          $or: [
+                   { title: { $regex: search, $options: "i" } },
+            { location: { $regex: search, $options: "i" } },
+              { country: { $regex: search, $options: "i" } }
+        ]
+    });
+     if (allListings.length === 0) {
+        req.flash("error", "Listing doesn't exist");
+        return res.redirect("/listings");
+    }
+
+    res.render("listings/index.ejs", { allListings });
 };

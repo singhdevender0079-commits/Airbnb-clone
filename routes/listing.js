@@ -10,6 +10,7 @@ const listingController=require("../controllers/listings.js");
 const multer  = require('multer');
 const {storage}=require("../cloudConfig.js");
 const upload = multer({storage});
+
 let schemaValidate = (req, res, next) => {
     let result = listingSchema.validate(req.body);
 
@@ -43,5 +44,7 @@ router.route("/:id")
 
 
 router.get("/:id/edit",isLoggedIn, wrapAsync(listingController.renderEditForm));
+router.post("/searching",wrapAsync(listingController.Searching));
+
 
 module.exports = router;
