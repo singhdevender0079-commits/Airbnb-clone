@@ -122,6 +122,5 @@ module.exports.Searching = async (req, res) => {
         req.flash("error", "Listing doesn't exist");
         return res.redirect("/listings");
     }
-
     res.render("listings/index.ejs", { allListings });
 };

@@ -19,6 +19,8 @@ const User=require("./models/User.js");
 const passport=require("passport");
 const LocalStrategy=require("passport-local");
 
+db_url=process.env.MONGODB_ATLAS;
+
 let port = 8080;
 main()
     .then(() => {
@@ -28,7 +30,7 @@ main()
         console.log(err);
     });
 async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/Airbnb');
+    await mongoose.connect(db_url);
 }
 //! Middlewares
 app.set("view engine", "ejs");
