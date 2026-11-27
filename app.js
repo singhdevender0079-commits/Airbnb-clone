@@ -19,7 +19,7 @@ const flash=require("connect-flash");
 const User=require("./models/User.js");
 const passport=require("passport");
 const LocalStrategy=require("passport-local");
-const secret="mysupersecretcode";
+const secret=process.env.SECRET;
 const db_url=process.env.MONGODB_ATLAS;
 
 let port = 8080;
